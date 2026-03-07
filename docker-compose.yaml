@@ -1,3 +1,4 @@
+# docker compose up -d
 services:
   database:
     image: postgres:latest
