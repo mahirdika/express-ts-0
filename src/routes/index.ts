@@ -1,6 +1,6 @@
 import { type Application, type Router } from "express";
-import { landingRouter } from "./landing.js";
-import { productRouter } from "./product.js";
+import { landingRouter } from "./landing.router.js";
+import { productRouter } from "./product.route.js";
 
 const _routes: Array<[string, Router]> = [
   ["/", landingRouter], ["/product", productRouter]

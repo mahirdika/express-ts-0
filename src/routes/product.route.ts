@@ -1,6 +1,6 @@
 import { Router } from "express";
 import Joi from "joi";
-import { createProductValidation } from "../validation/product.validation.js";
+import { createProductValidation } from "../validations/product.validation.js";
 
 export const productRouter: Router = Router();
 
