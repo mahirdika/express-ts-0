@@ -1,7 +1,7 @@
-import type { Request, Response } from "express";
+import { Request, Response } from "express";
 import { createProductValidation } from "../validations/product.validation.js";
 import { getProductsFromDB } from "../services/product.service.js";
-import type { ProductType } from "../models/product.model.js";
+import { ProductType } from "../models/product.model.js";
 
 export const getProducts = async (req: Request, res: Response) => {
     const products: any = await getProductsFromDB()

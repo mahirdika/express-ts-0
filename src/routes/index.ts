@@ -1,4 +1,4 @@
-import type { Application, Router } from "express";
+import { Application, Router } from "express";
 import { landingRouter } from "./landing.router.js";
 import { productRouter } from "./product.route.js";
 
