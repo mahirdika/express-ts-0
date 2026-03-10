@@ -2,6 +2,7 @@ import express, { type Application } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { routes } from "./routes/index.js";
+import './utils/db.connect.js'
 
 dotenv.config();
 

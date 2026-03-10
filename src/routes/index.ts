@@ -3,7 +3,7 @@ import { landingRouter } from "./landing.router.js";
 import { productRouter } from "./product.route.js";
 
 const _routes: Array<[string, Router]> = [
-  ["/", landingRouter], ["/product", productRouter]
+  ["/", landingRouter], ["/products", productRouter]
 ];
 
 export const routes = (app:Application) => {
