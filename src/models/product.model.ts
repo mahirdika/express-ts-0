@@ -22,11 +22,6 @@ const ProductSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-export const ProductModel = mongoose.model('products', ProductSchema, 'products')
+const ProductModel = mongoose.model('products', ProductSchema, 'products')
 
-export interface ProductType {
-    product_id: String,
-    name: String,
-    price: Number,
-    color: String
-} 
+export default ProductModel;
