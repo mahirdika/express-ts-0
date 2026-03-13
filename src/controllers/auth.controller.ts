@@ -1,8 +1,13 @@
 import { Request, Response } from "express";
 import { v4 as uuidv4 } from "uuid";
-import hashing from "../utils/hashing.js";
-import { registerUserValidation } from "../validations/auth.validation.js";
-import { createUser } from "../services/auth.service.js";
+import { checkPassword, hashing } from "../utils/hashing.js";
+import {
+  createSessionValidation,
+  registerUserValidation,
+} from "../validations/auth.validation.js";
+import { createUser, findUserByUsername } from "../services/auth.service.js";
+import { signJWT } from "../utils/jwt.js";
+import CONFIG from "../config/environment.js";
 
 export const registerUser = async (req: Request, res: Response) => {
   req.body.user_id = uuidv4();
@@ -27,5 +32,54 @@ export const registerUser = async (req: Request, res: Response) => {
     return res
       .status(422)
       .send({ status: false, statuscode: 422, message: error });
+  }
+};
+
+export const createSession = async (req: Request, res: Response) => {
+  const { error, value } = createSessionValidation(req.body);
+
+  if (error) {
+    const message = error.details[0]?.message as string;
+    return res
+      .status(400)
+      .send({ status: false, statuscode: 400, message: message });
+  }
+
+  try {
+    // bisa juga ganti tipe user menjadi any sementara, untuk mempermudah
+    const user = await findUserByUsername(value.username);
+    if (!user || !user.password) {
+      return res.status(404).send({
+        status: false,
+        statuscode: 422,
+        message: "Akun belum terdaftar",
+      });
+    }
+    const isValid = checkPassword(value.password, user.password);
+    if (!isValid) {
+      return res.status(404).send({
+        status: false,
+        statuscode: 404,
+        message: "Password kamu salah",
+      });
+    }
+    let accessToken;
+    try {
+      accessToken = signJWT({ ...user }, { expiresIn: "1d" });
+    } catch (jwtError) {
+      console.error("JWT Error:", jwtError); // lihat pesan errornya
+      return res.status(500).send({ message: "JWT signing failed" });
+    }
+    res.status(200).send({
+      status: true,
+      statuscode: 200,
+      message: "Login Success",
+      data: { accessToken },
+    });
+  } catch (jwtError) {
+    console.error("General Error:", error);
+    return res
+      .status(422)
+      .send({ status: false, statuscode: 422, message: jwtError });
   }
 };

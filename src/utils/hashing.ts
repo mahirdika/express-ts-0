@@ -1,7 +1,9 @@
 import bcrypt from "bcrypt";
 
-const hashing = (password: string) => {
+export const hashing = (password: string) => {
   return bcrypt.hashSync(password, 10);
 };
 
-export default hashing;
+export const checkPassword = (password: string, passwordDB: string) => {
+    return bcrypt.compareSync(password, passwordDB)
+}
