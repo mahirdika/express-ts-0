@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { routes } from "./routes/index.js";
 import './utils/db.connect.js'
+import deserializeUser from "./middleware/deserializedToken.js";
 
 dotenv.config();
 
@@ -13,6 +14,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(cors());
+
+app.use(deserializeUser)
 
 routes(app);
 

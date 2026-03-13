@@ -92,7 +92,6 @@ export const deleteProduct = async (req: Request, res: Response) => {
 
   try {
     const result = await deleteProductByID(id);
-    console.log(result);
     if (!result) {
       console.log("not found");
       return res
